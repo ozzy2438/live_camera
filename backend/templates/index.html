@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canlı Nesne Algılama ve Soru-Cevap</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div>
+        <img src="{{ url_for('video_feed') }}" width="640" height="480">
+    </div>
+    <div>
+        <input type="text" id="question" placeholder="Soru sorun...">
+        <button onclick="askQuestion()">Sor</button>
+    </div>
+    <div id="answer"></div>
+
+    <script>
+        var socket = io();
+        function askQuestion() {
+            var question = document.getElementById('question').value;
+            socket.emit('ask_question', {question: question});
+        }
+        socket.on('answer', function(data) {
+            document.getElementById('answer').innerHTML = data.answer;
+        });
+    </script>
+</body>
+</html>
