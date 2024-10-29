@@ -38,10 +38,15 @@ const ObjectDetectionApp = () => {
       setIsLoading(false);
     });
 
+    socket.on('error', (data) => {
+      setError(data.message);
+    });
+
     return () => {
       socket.off('connect');
       socket.off('connect_error');
       socket.off('answer');
+      socket.off('error');
     };
   }, []);
 
